@@ -7,7 +7,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class petugasSeeder extends Seeder
+
+class PengaduanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +16,16 @@ class petugasSeeder extends Seeder
     public function run(): void
     {
         //
-        DB::table('petugases')->insert([
-            'nama_petugas'=> Str::random(35),
-            'username' => Str::random(25),
-            'password' => Str::random(32),
-            'telepon'=> Str::random(13),
-            'level' => collect(['admin', 'petugas'])->random(),
+        $pengaduanIds = DB::table('pengaduan')->pluck('id_pengaduan');
+
+
+        DB::table('pengaduan')->Insert([
+            'id_pengaduan' => $pengaduanIds->random(),
+            'tanggal_pengaduan' => now(),
+            'nik' => Str::random(16),
+            'isi_laporan' => Str::random(),
+            'foto' => Str::random(255),
+            'status' => collect(['0','proses','selesai'])->random(),
         ]);
     }
 }

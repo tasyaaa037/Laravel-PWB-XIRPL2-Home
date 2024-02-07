@@ -23,6 +23,11 @@ class DatabaseSeeder extends Seeder
           petugasSeeder::class,
           pengaduanSeeder::class,
           tanggapanSeeder::class,
+          KelassSeeder::class,
+          SppsSeeder::class,
+          SiswasSeeder::class,
+          PetugassSeeder::class,
+          PembayaransSeeder::class,
         ]);
     }
 }

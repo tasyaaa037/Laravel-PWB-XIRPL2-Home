@@ -4,29 +4,26 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Str; 
 
-
-class pengaduanSeeder extends Seeder
+class PetugasSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $pengaduanIds = DB::table('pengaduans')->pluck('id_pengaduan')->toArray();
+        //
+        $petugasIds = DB::table('petugas')->pluck('id_petugas');
 
-
-        if (!empty($pengaduanIds)) {
-            DB::table('pengaduans')->insert([
-                'id_pengaduan' => $pengaduanIds[array_rand($pengaduanIds)],
-                'tanggal_pengaduan' => now(),
-                'nik' => Str::random(16),
-                'isi_laporan' => Str::random(),
-                'foto' => Str::random(255),
-                'status' => collect(['0','proses','selesai'])->random(),
-            ]);
-        }
+        DB::table('petugas')->insert([
+            'id_petugas'=> $petugasIds->random(),
+            'nama_petugas'=> Str::random(35),
+            'username'=> Str::random(25),
+            'password'=> Str::random(32),
+            'telepon'=> Str::random(13),
+            'level'=> collect(['admin','petugas'])->random(),
+        ]);
     }
 }
