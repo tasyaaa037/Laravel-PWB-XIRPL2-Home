@@ -28,3 +28,5 @@ Route::controller(SPPController::class)->group(function () {
     Route::delete('/spp/{id}', 'destroy')->name('spp.destroy');
 });
 Route::view('/template','template.master');
+
+Route::resource('/spp', sppController::class);
