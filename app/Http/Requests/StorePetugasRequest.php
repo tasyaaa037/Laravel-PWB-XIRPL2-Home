@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePetugassModelRequest extends FormRequest
+class StorePetugasRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdatePetugassModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'username' => 'required|min:3',
+            'password' => 'required|min:3',
+            'nama_petugas' => 'required|min:3',
+            'level' => 'required|in:admin,petugas',
         ];
     }
 }

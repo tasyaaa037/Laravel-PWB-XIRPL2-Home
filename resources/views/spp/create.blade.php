@@ -1,38 +1,42 @@
 @extends('template.master')
 
-@section('title', 'Tambah Data SPP')
-
-@section('content')
+@section('h1')
+    SPP
+    @endsection
+@section('rowTengah')
 <div class="row">
-  <div class="col-md-12">
-    <div class="card card-primary">
-      <div class="card-header">
-        <h3 class="card-title">Tambah Data SPP</h3>
-      </div>
-      <form action="{{ route('spp.store') }}" method="POST">
-        @csrf
-        <div class="card-body">
-          <div class="form-group">
-            <label for="tahun">Tahun</label>
-            <input name="tahun" type="text" class="form-control @error('tahun') is-invalid @enderror" id="tahun" placeholder="Masukkan Tahun">
-            @error('tahun')
-              <span class="invalid-feedback">{{ $message }}</span>
+    <div class="col-md-16">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Menambahkan Data SPP
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form action="{{ route('spp.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="nama">Tahun</label>
+                        <input type="number" name="tahun" class="form-control @error('nama') {{ 'is-invalid' }} @enderror" value="{{ @old('tahun') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nominal</label>
+                        <input type="number" name="nominal" class="form-control @error('nama') {{ 'is-invalid' }} @enderror" value="{{ @old('nominal') }}" required>
+                    </div>
+                    @error('tahun')
+                    <span class="error invalid-feedback" style="display: inline">{{ $message }}</span>
+                @enderror
+                @error('nominal')
+                <span class="error invalid-feedback" style="display: inline">{{ $message }}</span>
             @enderror
-          </div>
-          <div class="form-group">
-            <label for="nominal">Nominal</label>
-            <input name="nominal" type="text" class="form-control @error('nominal') is-invalid @enderror" id="nominal" placeholder="Masukkan Nominal">
-            @error('nominal')
-              <span class="invalid-feedback">{{ $message }}</span>
-            @enderror
-          </div>
+                    <button type="submit" class="btn btn-primary">Tambah SPP</button>
+                </form>
+            </div>
+            <!-- /.card-body -->
         </div>
-        <div class="card-footer">
-          <button type="reset" class="btn btn-warning">Reset</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+        <!-- /.card -->
     </div>
-  </div>
+    <!-- /.col -->
 </div>
 @endsection

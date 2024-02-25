@@ -1,103 +1,140 @@
 @extends('template.master')
 
-@push('css')
-  <link rel="stylesheet" href="{{ asset('sbadmin2/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('sbadmin2/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('sbadmin2/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-@endpush
-
-@section('title', 'Data SPP')
-
-@section('content')
-@if ($message = Session::get('success'))
-  <div class="alert alert-success alert-block">
-    <button type="button" class="close" data-dismiss="alert">×</button>  
-    <strong>{{ $message }}</strong> 
-  </div>
-@endif
-
-<div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <a href="{{ route('spp.create') }}" class="btn btn-sm btn-outline-primary">
-          <i class="fa fa-plus"> Tambah SPP</i>
-        </a>
-      </div>
-      <!-- /.card-header -->
-      <div class="card-body">
-        <table id="table" class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>ID SPP</th>
-              <th>Tahun</th>
-              <th>Nominal</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @forelse ($spps as $key => $spp)
-              <tr>
-                <td>{{ $key + 1 }}</td>
-                <td>{{ $spp->id_spp }}</td>
-                <td>{{ $spp->tahun }}</td>
-                <td>{{ $spp->nominal }}</td>
-                <td>
-                    <a href="{{ route('spp.show', $spp->id_spp) }}" class="btn btn-sm btn-info">
-                        Detail
-                    </a>
-                    <form action="{{ route('spp.destroy', $spp->id_spp) }}" method="post">
-                    <a href="{{ route('spp.edit', $spp->id_spp) }}" class="btn btn-sm btn-warning">
-                        Edit
-                    </a>  
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger my-1">Delete</button>
-                  </form>
-                </td>              
-              </tr>
-            @empty
-              <tr>
-                <td colspan="5">Data Masih Kosong</td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-  </div>
-  <!-- /.col -->
-</div>
+@section('h1')
+    SPP
 @endsection
+@section('rowTengah')
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
 
-@push('js')
-  <script src="{{ asset('sbadmin2/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/jszip/jszip.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/pdfmake/pdfmake.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/pdfmake/vfs_fonts.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-  <script src="{{ asset('sbadmin2/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <body id="page-top">
 
-  <script>
-    $(function () {
-      $("#table").DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script>
-@endpush
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">DataTables SPP</h6>
+                                <a href="{{ route('spp.create') }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-plus"></i><br>
+                                    Tambah Spp
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="table" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID SPP</th>
+                                                <th>TAHUN</th>
+                                                <th>NOMINAL</th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($spp as $key => $value)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $value->tahun }}</td>
+                                                    <td>{{ $value->nominal }}</td>
+                                                    <td>
+                                                        <a href="{{ route('spp.show', $value->id_spp) }}"
+                                                            class="btn btn-sm btn-info">
+                                                            Detail
+                                                        </a>
+                                                        <a href="{{ route('spp.edit', $value->id_spp) }}"
+                                                            class="btn btn-sm btn-primary">
+                                                            Edit
+                                                        </a>
+                                                        <form action="{{ route('spp.destroy', $value->id_spp) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Data Masih Kosong</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/datatables-demo.js"></script>
+
+    </body>
+
+    </html>
+@endsection
